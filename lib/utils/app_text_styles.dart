@@ -1,5 +1,4 @@
 import 'package:firestore_app/constants/app_constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppTextStyles {

@@ -1,11 +1,23 @@
+import 'dart:io';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firestore_app/constants/app_constants.dart';
 import 'package:firestore_app/screens/home_screen.dart';
+import 'package:firestore_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  if (Platform.isIOS) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
+  // Initialize without device test ids.
+  Admob.initialize();
   runApp(const MyApp());
 }
 
@@ -20,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreenPage(),
+      home: const SplashScreen(),
     );
   }
 }

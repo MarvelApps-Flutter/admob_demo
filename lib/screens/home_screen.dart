@@ -20,11 +20,12 @@ class _MyHomeScreenPageState extends State<HomeScreenPage> {
   AdmobReward? reward;
 
   init()
-  {
+  async {
     movieController = TextEditingController();
     reference = FirebaseFirestore.instance.collection(AppConstants.userListString);
     reward = AdmobReward(
-        adUnitId: AdMobConstants.rewardAdId,
+        adUnitId: 
+        AdMobConstants.getRewardBasedVideoAdUnitId()!,
         listener: (event, args) {
           if (event == AdmobAdEvent.rewarded) {
             print("User rewarded.......");
@@ -65,7 +66,8 @@ class _MyHomeScreenPageState extends State<HomeScreenPage> {
                     ? Card(
                         color: Colors.white,
                         child: AdmobBanner(
-                          adUnitId: AdMobConstants.bannerAdId,
+                          adUnitId: 
+                          AdMobConstants.getBannerAdUnitId()!,
                           adSize: AdmobBannerSize.ADAPTIVE_BANNER(
                               width: (width * 360 ~/ 375).toInt()),
                         ))
@@ -202,7 +204,6 @@ class _MyHomeScreenPageState extends State<HomeScreenPage> {
             padding: const EdgeInsets.only(right: 10.0),
             child: Image.asset(
              AppConstants.bulletAssetImageString,
-              //color: Colors.red,
               height: 20,
               width: 24,
             ),

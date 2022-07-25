@@ -36,12 +36,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core:
   cloud_firestore:
-  uuid:
   provider:
   date_format:
-  google_fonts:
   intl: ^0.17.0
-  admob_flutter: ^2.0.0
+  admob_flutter: ^3.0.0
 
 dev_dependencies:
   flutter_test:

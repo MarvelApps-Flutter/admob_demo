@@ -8,6 +8,7 @@ import 'package:firestore_app/utils/app_config.dart';
 import 'package:firestore_app/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../constants/color_constants.dart';
 
 class AddUserScreen extends StatefulWidget {
   final String? userKey;
@@ -30,7 +31,6 @@ class _AddUserScreenState extends State<AddUserScreen>
   TextEditingController? _dobController;
   AdmobInterstitial? interstitial;
   var reference;
-  Map<int, Color>? color;
 
   DateTime _currentDate = DateTime.now();
   Future _selectDueDate(BuildContext context) async {
@@ -43,7 +43,7 @@ class _AddUserScreenState extends State<AddUserScreen>
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.fromSwatch(
-              primarySwatch: MaterialColor(0xFFff4f5a, color!),
+              primarySwatch: MaterialColor(0xFFff4f5a, ColorConstants.color!),
               primaryColorDark: Color(0xFFff4f5a),
               accentColor: Color(0xFFff4f5a),
             ),
@@ -77,22 +77,11 @@ class _AddUserScreenState extends State<AddUserScreen>
     _ageController = TextEditingController();
     _dobController = TextEditingController();
     reference = FirebaseFirestore.instance.collection(AppConstants.userListString);
-    color = {
-      50: const Color(0xFFff4f5a),
-      100: const Color(0xFFff4f5a),
-      200: const Color(0xFFff4f5a),
-      300: const Color(0xFFff4f5a),
-      400: const Color(0xFFff4f5a),
-      500: const Color(0xFFff4f5a),
-      600: const Color(0xFFff4f5a),
-      700: const Color(0xFFff4f5a),
-      800: const Color(0xFFff4f5a),
-      900: const Color(0xFFff4f5a),
-    };
     if (widget.userKey != null) {
       getUserDetail();
     }
-    interstitial = AdmobInterstitial(adUnitId: AdMobConstants.interstitialAdId);
+    interstitial = AdmobInterstitial(adUnitId: AdMobConstants.getInterstitialAdUnitId()!
+    );
     interstitial!.load();
   }
 
@@ -107,9 +96,33 @@ class _AddUserScreenState extends State<AddUserScreen>
     appC = AppConfig(context);
     return Scaffold(
         backgroundColor: Colors.white,
+        appBar: buildAppBar(),
         body: buildBody());
   }
 
+AppBar buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0.0,
+      centerTitle: true,
+      title: Text(
+          (widget.isViewMode) == true
+              ? AppConstants.viewUserString
+              : (widget.isViewMode == false && widget.userKey != null)
+                  ? AppConstants.editUserString
+                  : AppConstants.createUserString,
+          style: AppTextStyles.blackTextStyle),
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(Icons.arrow_back_ios),
+        iconSize: 24,
+        color: Colors.black,
+      ),
+    );
+  }
+  
   Widget buildBody()
   {
     return SafeArea(
@@ -122,7 +135,7 @@ class _AddUserScreenState extends State<AddUserScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  height: appC.rH(26),
+                  height: appC.rH(25),
                   width: appC.rW(60),
                   decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -132,10 +145,6 @@ class _AddUserScreenState extends State<AddUserScreen>
                   ),
                 ),
                 buildSizedBoxWidget(10),
-                Text(
-                    (widget.isViewMode) == true ? AppConstants.viewUserString : (widget.isViewMode == false && widget.userKey != null) ? AppConstants.editUserString : AppConstants.createUserString,
-                    style: AppTextStyles.blackTextStyle),
-                buildSizedBoxWidget(13),
                 const Text(
                   AppConstants.enterDetailsString,
                   style: AppTextStyles.lightTextStyle,
