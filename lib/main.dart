@@ -5,7 +5,7 @@ import 'package:firestore_app/constants/app_constants.dart';
 import 'package:firestore_app/screens/home_screen.dart';
 import 'package:firestore_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'firebase_options.dart';
+import 'firebase_default_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
