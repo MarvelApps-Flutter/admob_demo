@@ -47,3 +47,7 @@ app.*.map.json
 
 # firebase options contains key
 lib/firebase_default_options.dart
+
+
+ios/Runner/GoogleService-Infos.plist
+android/app/google-service.json
